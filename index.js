@@ -1,3 +1,17 @@
+const server = require ('./api/server.js')
+
+server.listen(6000, () => {
+    console.log("server running on port 6000")
+})
+
+
+
+
+
+
+
+
+
 /*
 play this: https://www.youtube.com/watch?v=d-diB65scQU
 
