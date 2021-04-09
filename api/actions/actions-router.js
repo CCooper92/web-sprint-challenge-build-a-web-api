@@ -2,7 +2,7 @@
 const express = require('express')
 const Actions = require('./actions-model.js')
 const mw = require('./../middleware/middleware.js')
-const { getActionById } = require('./../middleware/middleware.js')
+
 const router = express.Router()
 
 
@@ -23,7 +23,7 @@ router.get('/:id', mw.getActionById, (req,res) => {
 })
 
 
-//NOT WORKING
+//WORKING
 router.post('/', mw.validateAction, (req,res) => {
     Actions.insert(req.body)
     .then(actions => {
@@ -35,8 +35,8 @@ router.post('/', mw.validateAction, (req,res) => {
 })
 
 
-//NOT WORKING
-router.put('/:id',   (req,res) => {
+//WORKING
+router.put('/:id', mw.getActionById, mw.validateAction,  (req,res) => {
     Actions.update(req.params.id, req.body)
   .then(actions=> {
     if(actions){
@@ -50,8 +50,8 @@ router.put('/:id',   (req,res) => {
   })
 });
 
-//NOT WORKING
-router.delete('/id:', async (req,res) => {
+// WORKING
+router.delete('/:id', mw.getActionById, async (req,res) => {
   try{
       const {id} = req.params
       const deletedAction = await Actions.remove(id)

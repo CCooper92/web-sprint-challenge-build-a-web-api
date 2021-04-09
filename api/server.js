@@ -1,12 +1,14 @@
 const express = require('express');
 const server = express();
 const actionsRouter = require("./actions/actions-router.js")
+const projectsRouter = require("./projects/projects-router.js")
 // const mw = require("./middleware/middleware.js")
 
 // Complete your server here!
 // Do NOT `server.listen()` inside this file!
 server.use(express.json())
 server.use("/api/actions", actionsRouter)
+server.use("/api/projects", projectsRouter)
 
 server.get('/', (req,res) => {
     res.send(`<h2>sprint challenge creating apis</h2>`)

@@ -1,8 +1,8 @@
 // Write your "projects" router here!
 
 const express = require('express')
-const Projects = require('./actions-model.js')
-// const mw = require('./../middleware/middleware.js')
+const Projects = require('./projects-model.js')
+const mw = require('./../middleware/middleware.js')
 const router = express.Router()
 
 
@@ -18,13 +18,13 @@ router.get('/', (req,res) => {
 })
 
 //WORKING
-router.get('/:id', mw.getActionById, (req,res) => {
-    res.status(200).json(req.project)
+router.get('/:id', mw.getProjectById, (req,res) => {
+    res.status(200).json(req.projects)
 })
 
 
-//NOT WORKING
-router.post('/', mw.validateAction, (req,res) => {
+//WORKING
+router.post('/', mw.validateProject, (req,res) => {
     Projects.insert(req.body)
     .then(project => {
         res.status(200).json(project)
@@ -35,10 +35,10 @@ router.post('/', mw.validateAction, (req,res) => {
 })
 
 
-//NOT WORKING
-router.put('/:id',   (req,res) => {
+//WORKING
+router.put('/:id', mw.getProjectById, mw.validateProject,  (req,res) => {
     Projects.update(req.params.id, req.body)
-  .then(actions=> {
+  .then(project=> {
     if(project){
       res.status(200).json(project);
     }else{
@@ -51,7 +51,7 @@ router.put('/:id',   (req,res) => {
 });
 
 //NOT WORKING
-router.delete('/id:', async (req,res) => {
+router.delete('/:id', mw.getProjectById, async (req,res) => {
   try{
       const {id} = req.params
       const deletedProject = await Projects.remove(id)
